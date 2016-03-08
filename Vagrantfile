@@ -1,6 +1,7 @@
-# -*- mode: ruby -*-
+# -*- mode: rub y -*-
 # vi: set ft=ruby :
 
+# vagrant plugin install vagrant-gatling-rsync
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
@@ -8,7 +9,8 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/wily64"
-  config.vm.synced_folder "../kristinandcorey.com", "/tmp/project", type: "rsync", rsync__exclude: ".git/"
+  config.vm.synced_folder "../kristinandcorey.com", "/tmp/project", type: "rsync", rsync__exclude: [".git/", ".bundle/"]
+  config.gatling.rsync_on_startup = true
   config.vm.network :private_network, ip: "192.168.30.2"
   config.vm.provision "shell", path: "https://raw.githubusercontent.com/sandalon/windows-vagrant-docker/master/provision/rails.sh"
   config.vm.network :forwarded_port, :host => 3000, :guest => 3000, auto_correct: true
